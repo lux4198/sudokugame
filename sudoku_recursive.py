@@ -1,13 +1,13 @@
 grid9 = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [4, 0, 0, 0, 0, 5, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 9, 8],
+    [3, 0, 0, 0, 8, 2, 4, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 8, 0],
+    [9, 0, 3, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 3, 0, 6, 7, 0],
+    [0, 5, 0, 0, 0, 9, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 9, 0, 7],
+    [6, 4, 0, 3, 0, 0, 0, 0, 0],
 ]
 
 grid0 = [
@@ -111,34 +111,25 @@ def compare_solutions(grid, allsolutions):
 
 
 def solveall(grid, grid0, allsolutions):
-    if not compare_solutions(grid, allsolutions):
+    if not solve(grid, allsolutions):
         return True
     if solve(grid, allsolutions):
-        if compare_solutions(grid, allsolutions):
-            allsolutions.append(grid)
-
-            if solveall(grid, grid0, allsolutions):
-                return True
-        else:
-            solve(grid, allsolutions)
+        allsolutions.append(grid)
+        grid = grid0
+        if solveall(grid, grid0, allsolutions):
+            return True
 
 
-# grid zwischendurch zuruecksaetzen ??
+def print_allsolutions(allsolutions):
+
+    for i in range(len(allsolutions)):
+        print("")
+        for j in range(len(allsolutions[i])):
+            print(allsolutions[i][j])
+
 
 allsolutions = []
 
-print_grid(grid9)
-print("")
-
-solve(grid9, allsolutions)
-for j in range(len(allsolutions)):
-    for i in range(9):
-        print(allsolutions[j][i])
-
-print(" ")
-
 solve(grid9, allsolutions)
 
-for j in range(len(allsolutions)):
-    for i in range(9):
-        print(allsolutions[j][i])
+print_allsolutions(allsolutions)
