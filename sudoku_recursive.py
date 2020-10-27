@@ -124,6 +124,7 @@ def solveall(grid, grid0, allsolutions):
 
 
 # grid zwischendurch zuruecksaetzen ??
+#
 
 allsolutions = []
 
