@@ -10,6 +10,19 @@ grid9 = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
+grid0 = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
+
+
 grid91 = [
     [1, 2, 3, 4, 5, 6, 7, 8, 9],
     [4, 5, 6, 7, 8, 9, 1, 2, 3],
@@ -74,18 +87,12 @@ def solve(grid, allsolutions):
                     if evaluate(grid, y, x, n):
                         grid[y][x] = n
                         if solve(grid, allsolutions):
-                            if len(allsolutions) == 0:
-                                allsolutions.append(grid)
-                                return True
-                            elif compare_solutions(
-                                grid, allsolutions
-                            ):  # erkennt nicht ob selber generiert Loesung oder alte Loesung
-                                allsolutions.append(grid)
+                            if compare_solutions(grid, allsolutions):
                                 return True
                             else:
                                 return False
                         grid[y][x] = 0
-                return
+                return False
 
 
 def print_grid(grid):
@@ -102,6 +109,21 @@ def compare_solutions(grid, allsolutions):
             return False
     return True
 
+
+def solveall(grid, grid0, allsolutions):
+    if not compare_solutions(grid, allsolutions):
+        return True
+    if solve(grid, allsolutions):
+        if compare_solutions(grid, allsolutions):
+            allsolutions.append(grid)
+
+            if solveall(grid, grid0, allsolutions):
+                return True
+        else:
+            solve(grid, allsolutions)
+
+
+# grid zwischendurch zuruecksaetzen ??
 
 allsolutions = []
 
