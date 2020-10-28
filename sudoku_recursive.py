@@ -1,39 +1,18 @@
+from copy import deepcopy
+
 grid9 = [
-    [4, 0, 0, 0, 0, 5, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 9, 8],
-    [3, 0, 0, 0, 8, 2, 4, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 8, 0],
-    [9, 0, 3, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 3, 0, 6, 7, 0],
-    [0, 5, 0, 0, 0, 9, 0, 1, 0],
-    [0, 0, 0, 2, 0, 0, 9, 0, 7],
-    [6, 4, 0, 3, 0, 0, 0, 0, 0],
+    [7, 8, 0, 4, 0, 0, 1, 2, 0],
+    [6, 0, 0, 0, 7, 5, 0, 0, 9],
+    [0, 0, 0, 6, 0, 1, 0, 7, 8],
+    [0, 0, 7, 0, 4, 0, 2, 6, 0],
+    [0, 0, 1, 0, 5, 0, 9, 3, 0],
+    [9, 0, 4, 0, 6, 0, 0, 0, 5],
+    [0, 7, 0, 3, 0, 0, 0, 1, 2],
+    [1, 2, 0, 0, 0, 7, 4, 0, 0],
+    [0, 4, 9, 2, 0, 6, 0, 0, 7],
 ]
 
-grid0 = [
-    [4, 0, 0, 0, 0, 5, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 9, 8],
-    [3, 0, 0, 0, 8, 2, 4, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 8, 0],
-    [9, 0, 3, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 3, 0, 6, 7, 0],
-    [0, 5, 0, 0, 0, 9, 0, 1, 0],
-    [0, 0, 0, 2, 0, 0, 9, 0, 7],
-    [6, 4, 0, 3, 0, 0, 0, 0, 0],
-]
-
-
-grid91 = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [4, 5, 6, 7, 8, 9, 1, 2, 3],
-    [7, 8, 9, 1, 2, 3, 4, 5, 6],
-    [2, 1, 4, 3, 6, 5, 8, 9, 7],
-    [3, 6, 5, 8, 9, 7, 2, 1, 4],
-    [8, 9, 7, 2, 1, 4, 3, 6, 5],
-    [5, 3, 1, 6, 4, 2, 9, 7, 8],
-    [6, 4, 2, 9, 7, 8, 5, 3, 1],
-    [9, 7, 8, 5, 3, 1, 6, 4, 2],
-]
+grid0 = deepcopy(grid9)
 
 
 def evaluate(grid, y, x, n):
@@ -90,6 +69,7 @@ def solve(grid, allsolutions):
                             if compare_solutions(grid, allsolutions):
                                 return True
                             else:
+                                grid[y][x] = 0
                                 return False
                         grid[y][x] = 0
                 return False
@@ -97,8 +77,10 @@ def solve(grid, allsolutions):
 
 def print_grid(grid):
     a = len(grid)
+    print("")
     for i in range(a):
         print(grid[i])
+    print(" ")
 
 
 def compare_solutions(grid, allsolutions):
@@ -111,16 +93,13 @@ def compare_solutions(grid, allsolutions):
 
 
 def solveall(grid, grid0, allsolutions):
-    if not solve(grid, allsolutions):
+    if len(allsolutions) == 20:
         return True
+    grid = deepcopy(grid0)
     if solve(grid, allsolutions):
-        if compare_solutions(grid9, allsolutions):
-            allsolutions.append(grid)
-            grid = grid0
-            if solveall(grid, grid0, allsolutions):
-                return True
-        else:
-            solveall(grid9, grid0, allsolutions)
+        allsolutions.append(grid)
+        if solveall(grid, grid0, allsolutions):
+            return True
 
 
 def print_allsolutions(allsolutions):
@@ -131,7 +110,26 @@ def print_allsolutions(allsolutions):
             print(allsolutions[i][j])
 
 
+def checkoutput(allsolutions):
+    for i in range(len(allsolutions)):
+        for j in range(len(allsolutions)):
+            if allsolutions[i] == allsolutions[j]:
+                if i == j:
+                    continue
+                return False
+    return True
+
+
 allsolutions = []
+
+sum = 0
+for i in range(len(grid9)):
+    sum += grid9[i].count(0)
+print(sum)
+
 solveall(grid9, grid0, allsolutions)
 
-print_allsolutions(allsolutions)
+print(len(allsolutions))
+
+if checkoutput(allsolutions):
+    print("jaa")
